@@ -10,5 +10,5 @@ exports.create = async (user) => {
 		`INSERT INTO user (email, password, username) values ('${user.email}, ${user.password}, ${user.username}');`
 	);
 
-	return (await db.query(`SELECT * FROM user WHERE email=${email}`)).rows[0];
+	return (await db.query(`SELECT * FROM user WHERE email=${user.email}`)).rows[0];
 };

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const TokenRepository = require("../repository/token");
+const tokenRepository = require("../repository/token");
 require("dotenv").config();
 
 exports.generateToken = async (payload) => {
@@ -13,17 +13,17 @@ exports.generateToken = async (payload) => {
 };
 
 exports.saveToken = async (id, refreshToken) => {
-	const tokenData = await TokenRepository.find(id, null);
+	const tokenData = await tokenRepository.find(id, null);
 	if (tokenData) {
 		tokenData.refreshToken = refreshToken;
-		TokenRepository.save(tokenData);
+		tokenRepository.save(tokenData);
 		return;
 	}
-	await TokenRepository.create(id, refreshToken);
+	await tokenRepository.create(id, refreshToken);
 };
 
 exports.removeToken = async (refreshToken) => {
-	return await TokenRepository.delete(refreshToken);
+	return await tokenRepository.delete(refreshToken);
 };
 
 exports.validateAToken = async (accessToken) => {
@@ -37,7 +37,7 @@ exports.validateAToken = async (accessToken) => {
 exports.validateRToken = async (refreshToken) => {
 	try {
 		const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-		const token = await TokenRepository.find(null, refreshToken);
+		const token = await tokenRepository.find(null, refreshToken);
 		if (token && user) return user;
 	} catch {
 		throw { status: 401, message: "User is unauthorized: please login again" };
