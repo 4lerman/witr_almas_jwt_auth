@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const tokenService = require("./token");
 
 exports.get = async (id, email) => {
-	await userRepository.find(id, email);
+	return userRepository.find(id, email);
 };
 
 exports.create = async (email, username, password) => {
@@ -11,9 +11,9 @@ exports.create = async (email, username, password) => {
 
 	const user = await userRepository.create({ email, username, password: hash });
 	delete user.hash;
-	const token = await tokenService.generateToken(user);
-	await tokenService.saveToken(user.id, token.refreshToken);
-	return { ...token, user };
+	const tokens = await tokenService.generateToken(user);
+	await tokenService.saveToken(user.id, tokens.refreshToken);
+	return { ...tokens, user };
 };
 
 exports.login = async (email, password) => {
@@ -25,9 +25,9 @@ exports.login = async (email, password) => {
 		throw { status: 400, message: "Info does not match. Try again" };
 
 	delete user.password;
-	const token = await tokenService.generateToken(user);
-	await tokenService.saveToken(user.id, token.refreshToken);
-	return { ...token, user };
+	const tokens = await tokenService.generateToken(user);
+	await tokenService.saveToken(user.id, tokens.refreshToken);
+	return { ...tokens, user };
 };
 
 exports.logout = async (refreshToken) => {
@@ -37,13 +37,13 @@ exports.logout = async (refreshToken) => {
 exports.refresh = async (refreshToken) => {
 	if (!refreshToken) throw { status: 401, message: "User is unaurthorized" };
 
-	const refreshToken = await tokenService.validateRToken(refreshToken);
+	const token = await tokenService.validateRToken(refreshToken);
 	if (!refreshToken)
 		throw { status: 401, message: "User is unaurthorized to refresh" };
 
 	const user = await userRepository.find(token.id, null);
     delete user.password;
-	const token = await tokenService.generateToken(user);
-	await tokenService.saveToken(user.id, token.refreshToken);
-	return { ...token, user };
+	const tokens = await tokenService.generateToken(user);
+	await tokenService.saveToken(user.id, tokens.refreshToken);
+	return { ...tokens, user };
 };
