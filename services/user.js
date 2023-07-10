@@ -16,6 +16,15 @@ exports.create = async (email, username, password) => {
 	return { ...tokens, user };
 };
 
+exports.update = async (email, password) => {
+	const hash = await bcrypt.hash(password, 10);
+
+	const user = await userRepository.update({email, password: hash});
+	delete user.hash;
+
+	return user;
+}
+
 exports.login = async (email, password) => {
 	const user = await userRepository.find(null, email);
 	if (!user) throw { status: 404, message: "user not found" };

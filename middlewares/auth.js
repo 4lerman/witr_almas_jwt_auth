@@ -8,7 +8,7 @@ exports.verify = async (req, res, next) => {
 	}
 	try {
 		const data = await tokenService.validateAToken(token)
-		req.params = data;
+		req.user = data;
 		return next();
 	} catch {
 		return res.status(403).send("Unauthorized");
