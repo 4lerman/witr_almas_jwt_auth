@@ -1,0 +1,14 @@
+.loginPage {
+    height: 93vh;
+    display: flex;
+    justify-content: center;
+}
+
+.loginPage form {
+    margin-top: 40px;
+    height: 500px;
+    width: 330px;
+    display: block;
+    text-align: center;
+    flex-direction: column;
+}

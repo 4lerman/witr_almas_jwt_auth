@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "client:dev": "npm run start --workspace=client",
     "start:dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "concurrently \"npm run start:dev\" \"npm run client:dev\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "concurrently": "^8.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -25,5 +27,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "workspaces": [
+    "client"
+  ]
 }

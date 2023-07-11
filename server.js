@@ -9,14 +9,14 @@ require("dotenv").config();
 
 const api = require("./api/api");
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.SERVER_PORT || 8000;
 
 const corsOptions = {
 	exposedHeaders: "*",
-	origin: `http://localhost:${PORT}`,
+	origin: `http://localhost:3000`,
 	methods: "GET, PUT, POST, DELETE",
 	credentials: true,
-};
+}; 
 
 const app = express();
 app.use(cookieParser());

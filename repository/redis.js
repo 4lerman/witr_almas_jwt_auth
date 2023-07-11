@@ -14,7 +14,7 @@ exports.create = async (user_id, uuid_key) => {
 		uuid_key,
 		user_id,
 		"EX",
-		process.env.RESET_PASSWORD_TIME,
+		parseInt(process.env.RESET_PASSWORD_TIME),
 		(err, res) => {
 			console.log(typeof process.env.RESET_PASSWORD_TIME)
 			if (res === 1) return { status: 200, message: "created successfully" };
