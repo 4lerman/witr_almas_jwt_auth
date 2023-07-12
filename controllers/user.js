@@ -14,11 +14,13 @@ exports.register = async (req, res, next) => {
 	const newUser = await userService.create(email, username, password);
 	res.cookie("accessToken", newUser.accessToken, {
 		maxAge: 5 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
+		path: '/'
 	});
 	res.cookie("refreshToken", newUser.refreshToken, {
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
+		path: '/'
 	});
 	res.status(200).json(newUser);
 };
@@ -31,11 +33,11 @@ exports.login = async (req, res, next) => {
 	const user = await userService.login(email, password);
 	res.cookie("accessToken", user.accessToken, {
 		maxAge: 5 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
 	});
 	res.cookie("refreshToken", user.refreshToken, {
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
 	});
 	res.status(200).json(user);
 };
@@ -61,11 +63,11 @@ exports.refresh = async (req, res, next) => {
 	const user = await userService.refresh(refreshToken);
 	res.cookie("accessToken", user.accessToken, {
 		maxAge: 5 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
 	});
 	res.cookie("refreshToken", user.refreshToken, {
 		maxAge: 7 * 24 * 60 * 60 * 1000,
-		httpOnly: true,
+		httpOnly: false,
 	});
 	res.status(200).json(user);
 };

@@ -1,10 +1,10 @@
-.loginPage {
+.registerPage {
     height: 93vh;
     display: flex;
     justify-content: center;
 }
 
-.loginPage form {
+.registerPage form {
     margin-top: 40px;
     height: 500px;
     width: 330px;
@@ -14,8 +14,7 @@
     flex-direction: column;
 }
 
-.loginPage input {
+.registerPage input {
     width: 200px;
     margin-bottom: 5px;
 }
-

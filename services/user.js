@@ -10,7 +10,7 @@ exports.create = async (email, username, password) => {
 	const hash = await bcrypt.hash(password, 10);
 
 	const user = await userRepository.create({ email, username, password: hash });
-	delete user.hash;
+	delete user.password;
 	const tokens = await tokenService.generateToken(user);
 	await tokenService.saveToken(user.id, tokens.refreshToken);
 	return { ...tokens, user };

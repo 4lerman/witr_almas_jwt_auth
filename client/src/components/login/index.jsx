@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import login from "../../services/auth";
+import { login } from "../../services/auth";
 import "./index.css";
 
 const Login = () => {
@@ -10,10 +10,17 @@ const Login = () => {
 	const [password, setPassword] = useState("");
 
 	const loginUser = async (e) => {
-        e.preventDefault()
+		e.preventDefault();
 		const response = await login(email, password);
+
+		const newUser = {
+			email: response.data.user.email,
+			username: response.data.user.username
+		}
+		localStorage.setItem('user', JSON.stringify(newUser))
+
 		if (!response) navigate("/error");
-        console.log("logged in user", response.data.user);
+		console.log("logged in user", response.data.user);
 		navigate("/");
 	};
 
@@ -29,14 +36,6 @@ const Login = () => {
 					onChange={(e) => setEmail(e.target.value)}
 					required
 				/>
-				{/* <input
-				type="text"
-				name="username"
-				placeholder="Enter username"
-				value={username}
-				onChange={(e) => setUsername(e.target.value)}
-				required
-			/> */}
 				<input
 					type="password"
 					name="password"
@@ -47,6 +46,7 @@ const Login = () => {
 				/>
 				<button onClick={loginUser}>Login</button>
 			</form>
+			<a href="/register">Do not have account? Register!</a>
 		</div>
 	);
 };
